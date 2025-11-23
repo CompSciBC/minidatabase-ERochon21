@@ -37,7 +37,7 @@ struct Engine {
 
         //insert record to lastIndex with lowercased last name
         std::string lowerLast = toLower(recIn.last);
-        lastIndex.insert(lowerLast, (vector<int>)recordID);
+        lastIndex.insert(lowerLast, std::vector<int>{recordID});
 
         // clear comparison metric
         idIndex.resetMetrics();
