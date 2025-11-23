@@ -39,6 +39,9 @@ struct Engine {
         std::string lowerLast = toLower(recIn.last);
         lastIndex.insert(lowerLast, (vector<int>)recordID);
 
+        // clear comparison metric
+        idIndex.resetMetrics();
+        lastIndex.resetMetrics();
         //return the recordID
         return recordID;
     }
