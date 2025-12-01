@@ -119,7 +119,7 @@ struct Engine {
 
         string lowPrefix = toLower(prefix);
         
-       lastIndex.findPrefix(lowPrefix, [&](const string &k, const vector<int> heapKeys){
+       lastIndex.findPrefix(lowPrefix, [&](const vector<int> heapKeys){
             for(int i = 0; i < heapKeys.size(); i++){
                 recInPrefix.push_back(&heap[heapKeys[i]]);
             }
