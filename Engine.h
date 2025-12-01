@@ -126,6 +126,9 @@ struct Engine {
             
         });
 
+        cmpOut = lastIndex.comparisons;
+        lastIndex.resetMetrics();
+        
         return recInPrefix;
     }
 };
