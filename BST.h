@@ -177,24 +177,32 @@ private:
 
 
     template<typename Fn>
-    void findPrefixRec(Node *n, const K &prefix, Fn fn){
-        if (!n) return;
+void findPrefixRec(Node *n, const K &prefix, Fn fn){
+    if (!n) return;
 
+    ++comparisons;
+    if (n->key < prefix) {
+        // Current key is less than prefix, all matches are in right subtree
+        findPrefixRec(n->right, prefix, fn);
+    }
+    else {
+        // Check if current key starts with prefix
         ++comparisons;
-        if (n->key.rfind(prefix, 0) == 0){
-            fn(n->val);
-        }
-
-        ++comparisons;
-        if (prefix < n->key){
+        bool hasPrefix = (n->key.rfind(prefix, 0) == 0);
+        
+        if (hasPrefix) {
+            // This key matches - check both subtrees and process this node
             findPrefixRec(n->left, prefix, fn);
-        }
-
-        ++comparisons;
-        if (n->key < prefix){
+            fn(n->key, n->val);  // Pass BOTH key and value
             findPrefixRec(n->right, prefix, fn);
         }
+        else {
+            // Current key is greater than prefix but doesn't match
+            // All matches must be in left subtree
+            findPrefixRec(n->left, prefix, fn);
+        }
     }
+}
 
 
 };
