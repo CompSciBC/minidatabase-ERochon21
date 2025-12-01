@@ -91,13 +91,14 @@ struct Engine {
 
         // if heapId is null pointer or data has been soft deleted then data was not found
 
+        if(!heapID) return nullptr;
+        
+        // else returns a pointer to the record found
+
         if(heap[*heapID].deleted == true){
             cmpOut++;
             return nullptr;
         }
-        // else returns a pointer to the record found
-
-        if(!heapID) return nullptr;
         else{
             Record* rec = &heap[*heapID];
             return rec;
