@@ -65,6 +65,7 @@ public:
     // ----- Resets the comparison counter -----
     void resetMetrics() { comparisons = 0; }
 
+    template <typename Fn>
     void findPrefix(const K &prefix, Fn fn){
         findPrefixRec(root, prefix, fn);
     }
