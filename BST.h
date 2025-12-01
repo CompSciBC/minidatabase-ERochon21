@@ -2,6 +2,7 @@
 #define BST_H
 
 #include <string>
+#include <functional>
 
 // ================== Recursive BST ==================
 // Generic Binary Search Tree (BST) template
@@ -64,7 +65,7 @@ public:
     // ----- Resets the comparison counter -----
     void resetMetrics() { comparisons = 0; }
 
-    void findPrefix(const string &prefix, Fn fn){
+    void findPrefix(const K &prefix, Fn fn){
         findPrefixRec(root, prefix, fn);
     }
 
