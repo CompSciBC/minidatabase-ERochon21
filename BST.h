@@ -193,7 +193,7 @@ void findPrefixRec(Node *n, const K &prefix, Fn fn){
         if (hasPrefix) {
             // This key matches - check both subtrees and process this node
             findPrefixRec(n->left, prefix, fn);
-            fn(n->key, n->val);  // Pass BOTH key and value
+            fn(n->val);  // Pass value
             findPrefixRec(n->right, prefix, fn);
         }
         else {
