@@ -114,8 +114,16 @@ struct Engine {
     // Returns all records whose last name begins with a given prefix.
     // Case-insensitive using lowercase comparison.
     vector<const Record *> prefixByLast(const string &prefix, int &cmpOut) {
-        return vector<const Record*>();
-       
+        vector<const Record *> result;
+    
+    lastIndex.resetMetrics();
+    lastIndex.prefixApply(prefix, [&](const string &key, const Record &rec) {
+        result.push_back(&rec);
+    });
+    cmpOut = lastIndex.comparisons;
+    
+    return result;
+
     }
 };
 
