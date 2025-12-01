@@ -37,7 +37,7 @@ struct Engine {
 
         //insert record to lastIndex with lowercased last name
         std::string lowerLast = toLower(recIn.last);
-        lastIndex.insert(lowerLast.substr(0,1), std::vector<int>{recordID});
+        lastIndex.insert(lowerLast, std::vector<int>{recordID});
 
         // clear comparison metric
         idIndex.resetMetrics();
@@ -118,21 +118,13 @@ struct Engine {
         if(heap.size() == 0) return recInPrefix;
 
         string lowPrefix = toLower(prefix);
-        vector<int>* pKeys = lastIndex.find(lowPrefix.substr(0,1));
-
-        cmpOut = lastIndex.comparisons;
-        lastIndex.resetMetrics();
-
-        while(pKeys != nullptr){
-            for(int idx : *pKeys) {
-            Record* pointRec = &heap[idx];
-            // Check if the full last name starts with the prefix
-            string lowerLast = toLower(pointRec->last);
-            if(lowerLast.compare(0, lowPrefix.length(), lowPrefix) == 0) {
-                recInPrefix.push_back(pointRec);
+        
+       lastIndex.findPrefix(lowPrefix, [&](const string &k, const vector<int> heapKeys){
+            for(int i = 0; i < heapKeys.size(); i++){
+                recInPrefix.push_back(&heap[heapKeys[i]]);
             }
-        }
-        }
+            
+        });
 
         return recInPrefix;
     }

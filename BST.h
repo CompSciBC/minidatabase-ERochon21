@@ -62,6 +62,10 @@ public:
     // ----- Resets the comparison counter -----
     void resetMetrics() { comparisons = 0; }
 
+    void findPrefix(const string &prefix, Fn fn){
+        findPrefixRec(root, prefix, fn);
+    }
+
 private:
     // ----- Helper: Clear -----
     // Recursively deletes all nodes in the tree (postorder traversal)
@@ -168,9 +172,27 @@ private:
 
 
 
+    template<typrname Fn>
+    void findPrefixRec(Node *n, const string &prefix, Fn fn){
+        if (!n) return;
+
+        ++comparisons;
+        if (n->key.rfind(prefix, 0) == 0){
+            fn(n->val);
+        }
+
+        ++comparisons;
+        if (prefix < n->key){
+            findPrefixRec(n->left, prefix, fn);
+        }
+
+        ++comparisons;
+        if (n->key < prefix){
+            findPrefixRec(n->right, prefix, fn);
+        }
+    }
 
 
-    
 };
 
 #endif
