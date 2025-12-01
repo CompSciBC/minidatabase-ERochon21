@@ -1,6 +1,9 @@
 #ifndef BST_H
 #define BST_H
 
+#include <string>
+#include <functional>
+
 // ================== Recursive BST ==================
 // Generic Binary Search Tree (BST) template
 // K - key type, must support comparison operators (<, ==)
@@ -61,6 +64,11 @@ public:
 
     // ----- Resets the comparison counter -----
     void resetMetrics() { comparisons = 0; }
+
+    template <typename Fn>
+    void findPrefix(const K &prefix, Fn fn){
+        findPrefixRec(root, prefix, fn);
+    }
 
 private:
     // ----- Helper: Clear -----
@@ -165,6 +173,30 @@ private:
         if (n->key < hi)
             rangeRec(n->right, lo, hi, fn); // explore right if possible
     }
+
+    
+
+    template<typename Fn>
+    void findPrefixRec(Node *n, const K &prefix, Fn fn){
+        if (!n) return;
+
+        ++comparisons;
+        if (n->key.rfind(prefix, 0) == 0){
+            fn(n->val);
+        }
+
+        ++comparisons;
+        if (prefix < n->key){
+            findPrefixRec(n->left, prefix, fn);
+        }
+
+        ++comparisons;
+        if (n->key < prefix){
+            findPrefixRec(n->right, prefix, fn);
+        }
+    }
+
+
 };
 
 #endif
