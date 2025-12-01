@@ -121,7 +121,10 @@ struct Engine {
         
        lastIndex.findPrefix(lowPrefix, [&](const vector<int> heapKeys){
             for(int i = 0; i < heapKeys.size(); i++){
-                recInPrefix.push_back(&heap[heapKeys[i]]);
+                if(heap[heapKeys[i]].deleted == false){
+                    recInPrefix.push_back(&heap[heapKeys[i]]);
+                }
+                
             }
             
         });
