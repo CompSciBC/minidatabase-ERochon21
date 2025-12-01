@@ -45,7 +45,7 @@ struct Engine {
         } else {
         // Create new vector
             lastIndex.insert(lowerLast, std::vector<int>{recordID});
-        }
+    }
 
         // clear comparison metric
         idIndex.resetMetrics();
@@ -90,14 +90,14 @@ struct Engine {
         idIndex.resetMetrics();
 
         // if heapId is null pointer or data has been soft deleted then data was not found
+
+        if(heap[*heapID].deleted == true){
+            cmpOut++;
+            return nullptr;
+        }
         // else returns a pointer to the record found
+
         if(!heapID) return nullptr;
-    
-        // Count the comparison for checking the deleted flag
-        cmpOut++;
-    
-        // if data has been soft deleted then data was not found
-        if(heap[*heapID].deleted == true) return nullptr;
         else{
             Record* rec = &heap[*heapID];
             return rec;
