@@ -170,42 +170,7 @@ private:
 
 
 
-
-public:
-    // Add this method to your BST class in BST.h:
-template <typename Fn>
-void prefixApply(const K &prefix, Fn fn) {
-    prefixRec(root, prefix, fn);
-}
-
-private:
-template <typename Fn>
-void prefixRec(Node *n, const K &prefix, Fn fn) {
-    if (!n) return;
     
-    ++comparisons;
-    if (n->key < prefix) {
-        // All matches must be in right subtree
-        prefixRec(n->right, prefix, fn);
-    }
-    else {
-        // Check if current key starts with prefix
-        ++comparisons;
-        bool hasPrefix = (n->key.length() >= prefix.length() && 
-                         n->key.compare(0, prefix.length(), prefix) == 0);
-        
-        if (hasPrefix) {
-            // This key matches - check both subtrees
-            prefixRec(n->left, prefix, fn);
-            fn(n->key, n->val);
-            prefixRec(n->right, prefix, fn);
-        }
-        else {
-            // Current key is lexicographically greater than any possible match
-            prefixRec(n->left, prefix, fn);
-        }
-    }
-}
 };
 
 #endif

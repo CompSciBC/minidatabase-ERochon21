@@ -37,7 +37,7 @@ struct Engine {
 
         //insert record to lastIndex with lowercased last name
         std::string lowerLast = toLower(recIn.last);
-        lastIndex.insert(lowerLast, std::vector<int>{recordID});
+        lastIndex.insert(lowerLast.substr(0,1), std::vector<int>{recordID});
 
         // clear comparison metric
         idIndex.resetMetrics();
@@ -114,16 +114,27 @@ struct Engine {
     // Returns all records whose last name begins with a given prefix.
     // Case-insensitive using lowercase comparison.
     vector<const Record *> prefixByLast(const string &prefix, int &cmpOut) {
-        vector<const Record *> result;
-    
-    lastIndex.resetMetrics();
-    lastIndex.prefixApply(prefix, [&](const string &key, const Record &rec) {
-        result.push_back(&rec);
-    });
-    cmpOut = lastIndex.comparisons;
-    
-    return result;
+        vector<const Record*> recInPrefix;
+        if(heap.size() == 0) return recInPrefix;
 
+        string lowPrefix = toLower(prefix);
+        vector<int>* pKeys = lastIndex.find(lowPrefix.substr(0,1));
+
+        cmpOut = lastIndex.comparisons;
+        lastIndex.resetMetrics();
+
+        while(pKeys != nullptr){
+            for(int idx : *pKeys) {
+            Record* pointRec = &heap[idx];
+            // Check if the full last name starts with the prefix
+            string lowerLast = toLower(pointRec->last);
+            if(lowerLast.compare(0, lowPrefix.length(), lowPrefix) == 0) {
+                recInPrefix.push_back(pointRec);
+            }
+        }
+        }
+
+        return recInPrefix;
     }
 };
 
